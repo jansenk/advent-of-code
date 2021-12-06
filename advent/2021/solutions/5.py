@@ -28,21 +28,6 @@ def get_step(p1, p2):
     norm_dy = int(dy / abs(dy)) if dy != 0 else 0
     return Point(norm_dx,  norm_dy)
             
-            
- # / LTR 
-# / RTL
- # \ LTR
- # \ RTL   
- #
-        
-    # dx = p2.x - p1.x
-    # dy = p2.y - p1.y
-    # try:
-    #     f = Fraction(dy, dx)
-    #     return Point(f.denominator, f.numerator)
-    # except ZeroDivisionError:
-    #     return Point(dx, 0)
-
 def points_along_line(p1, p2):
     s = get_step(p1, p2)
     current_point = p1
