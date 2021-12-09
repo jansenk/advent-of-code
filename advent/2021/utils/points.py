@@ -41,6 +41,9 @@ def apply3d(p, f):
 		f(p.z)
 	)
 
+def pointstr(p):
+    return f'({p.x}, {p.y})'
+
 class Direction:
 	UP = Point(0, 1)
 	DOWN = Point(0, -1)
