@@ -42,7 +42,15 @@ def apply3d(p, f):
 	)
 
 def pointstr(p):
-    return f'({p.x}, {p.y})'
+	return f'({p.x}, {p.y})'
+
+def reflect(p, x=None, y=None):
+	new_x, new_y = p.x, p.y
+	if x is not None:
+		new_x = x + (x - p.x)
+	if y is not None:
+		new_y = y + (y - p.y)
+	return Point(new_x, new_y)
 
 class Direction:
 	UP = Point(0, 1)
