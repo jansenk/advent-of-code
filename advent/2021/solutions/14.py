@@ -1,3 +1,7 @@
+expansion_cache = dict()
+
+from collections import Counter
+
 def parse_input(test):
     polymer_template = None
     pair_insertions = {} 
@@ -10,6 +14,19 @@ def parse_input(test):
             pair_insertions[(pair[0], pair[1])] = inserted
     return polymer_template, pair_insertions
 
+def prime_expansion_count_cache(pair_insertions):
+    global expansion_cache
+    expansion_cache
+    for pair, insertion in pair_insertions.items():
+        expansion_cache[(pair, 1)] = pair[0]+insertionCounter(insertion + pair[0] + pair[1])
+
+def get_expansion_counts(pair, depth):
+    global expansion_cache
+    cached_result = expansion_cache.get((pair, depth))
+    if cached_result is None:
+        one_less_depth = get_expansion_counts(pair, depth-1)
+        
+
 def get_insertions(polymer, pair_insertions):
     insertions = []
     for i in range(len(polymer) - 1):
@@ -18,13 +35,12 @@ def get_insertions(polymer, pair_insertions):
     return insertions
 
 def insert_insertions(polymer, insertions):
-    new_polymer = [polymer[0]]
+    new_polymer = [polymer[0]] + 
     for insertion, polymer_element in zip(insertions, polymer[1:]):
         new_polymer.append(insertion)
         new_polymer.append(polymer_element)
     return new_polymer    
 
-from collections import Counter
  
 def synthesize(test, steps):
     # breakpoint()
