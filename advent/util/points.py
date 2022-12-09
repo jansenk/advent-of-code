@@ -1,3 +1,4 @@
+from math import sqrt
 from collections import namedtuple
 
 Point = namedtuple("Point", ["x", "y"])
@@ -28,6 +29,9 @@ def move3d(p1, p2):
 def manhattan_distance(p1, p2):
 	return abs(p1.x - p2.x) + abs(p1.y - p2.y)
 
+def chebshayev_distance(p1, p2):
+    return max(abs(p1.x - p2.x), abs(p1.y - p2.y))
+
 def manhattan_distance_3d(p1, p2):
 	return abs(p1.x - p2.x) + abs(p1.y - p2.y) + abs(p1.z - p2.z)
 
@@ -39,6 +43,27 @@ def apply3d(p, f):
 		f(p.x),
 		f(p.y),
 		f(p.z)
+	)
+ 
+def vector(p1, p2):
+    """ Bad name. If I a at p1, what vector do I need to get to p2?"""
+    return Point(
+		p2.x - p1.x,
+		p2.y - p1.y,
+	)
+
+def _ordinality(n):
+		if n == 0:
+			return 0
+		if n > 0:
+			return 1
+		if n < 0:
+			return -1
+
+def unit_vector(v):
+    return Point(
+		_ordinality(v.x),
+		_ordinality(v.y),
 	)
 
 class Direction:
@@ -83,6 +108,18 @@ class Direction:
 			return 'LEFT'
 		if d == Direction.RIGHT:
 			return 'RIGHT'
+
+	@staticmethod
+	def parse(s):
+		s = s.lower()
+		if s in ('up', 'u', 'north', 'n'):
+			return Direction.UP
+		if s in ('down', 'd', 'south', 's'):
+			return Direction.DOWN
+		if s in ('left', 'l', 'west', 'w'):
+			return Direction.LEFT
+		if s in ('right', 'r', 'east', 'e'):
+			return Direction.RIGHT
 
 def surrounding_points(p):
 	return [move(d, p) for d in Direction.ALL_DIRECTIONS]
