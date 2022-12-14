@@ -5,3 +5,8 @@ def iterlines(day_num, is_test=False, test_case=None):
     with open(f'advent/2022/input_files/{day_num}{test_filename}.txt') as f:
         for line in f:
             yield line.strip()
+            
+def iter_chunks(day_num, chunk_lines, is_test=False, test_case=None):
+    lines = iterlines(day_num, is_test=is_test, test_case=test_case)
+    while True:
+        yield [next(lines) for _ in range(chunk_lines)]
