@@ -7,13 +7,23 @@ class Vector:
 	dx: int
 	dy: int
  
-	def __add__(self, v2):
-		return Vector(self.dx + v2.dx, self.dy + v2.dy)
+	def __iter__(self):
+		return iter([self.dx, self.dy])
+ 
+	def __add__(self, other):
+		r = _add([*self], [*other])
+		if isinstance(other, Point):
+			return Point(*r)
+		elif isinstance(other, Vector):
+			return Vector(*r)
  
  
 Point3D = namedtuple("Point3D", ["x", "y", "z"])
 Vector3D = namedtuple("Vector3D", ["dx", "dy", "dz"])
-    
+
+def _add(a, b):
+    return (a[0] + b[0], a[1] + b[1])
+  
 def move(p, v):
 	return Point(
 		p.x + v.dx,
@@ -27,7 +37,7 @@ def moven(p, v, n):
 	)
 
 def _subtract(a, b):
-    return (b.x - a.x, b.y - a.y)
+    return (b[0] - a[0], b[1]- a[1])
 
 def recenter(p0, p1):
 	""" Returns a point with the coordinates of p1 if p0 was the origin """
@@ -72,9 +82,9 @@ def _ordinality(n):
 		return -1
 
 def unit_vector(v):
-    return Point(
-		_ordinality(v.x),
-		_ordinality(v.y),
+    return Vector(
+		_ordinality(v.dx),
+		_ordinality(v.dy),
 	)
 
 class Direction:
