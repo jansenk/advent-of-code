@@ -1,7 +1,12 @@
 from collections import namedtuple
 from dataclasses import dataclass
 
-Point = namedtuple("Point", ["x", "y"])
+_Point = namedtuple("Point", ["x", "y"])
+
+class Point(_Point):
+    def __str__(self):
+        return f"({self.x}, {self.y})"
+
 @dataclass
 class Vector:
 	dx: int
@@ -16,8 +21,19 @@ class Vector:
 			return Point(*r)
 		elif isinstance(other, Vector):
 			return Vector(*r)
+
+	def mult(self, other):
+		return Vector(
+			self.dx * other.dx,
+   			self.dy * other.dy
+		)
  
- 
+	def scale(self, factor):
+		return Vector(
+			self.dx * factor,
+			self.dy * factor
+		)
+
 Point3D = namedtuple("Point3D", ["x", "y", "z"])
 Vector3D = namedtuple("Vector3D", ["dx", "dy", "dz"])
 
@@ -32,8 +48,8 @@ def move(p, v):
 
 def moven(p, v, n):
 	return move(
-		Vector(v.dx * n, v.dy * n),
-		p
+		p,
+  		Vector(v.dx * n, v.dy * n),
 	)
 
 def _subtract(a, b):

@@ -2,28 +2,8 @@ from collections import namedtuple
 from dataclasses import dataclass
 from operator import is_
 from unicodedata import name
-from ..utils import iterlines
+from ..utils import iterlines, Window
 from advent.util.points import Point, Direction, move, vector_to, unit_vector
-
-@dataclass
-class Range:
-    rmin: int = float('inf')
-    rmax: int = float('-inf')
-    
-    def extend(self, v):
-        if v < self.rmin:
-            self.rmin = v
-        if v > self.rmax:
-            self.rmax = v
-
-@dataclass
-class Window:
-    x_range: Range = Range()
-    y_range: Range = Range()
-    
-    def extend(self, p):
-        self.x_range.extend(p.x)
-        self.y_range.extend(p.y)
 
 def parse_cave(is_test):
     walls = set()
