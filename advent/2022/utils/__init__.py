@@ -1,4 +1,6 @@
+from collections import defaultdict
 from dataclasses import dataclass
+from queue import PriorityQueue
 
 def iterlines(day_num, is_test=False, test_case=None):
     test_suffix = '' if test_case is None else str(test_case)
@@ -61,3 +63,29 @@ class Window:
     def extend(self, p):
         self.x_range.extend(p.x)
         self.y_range.extend(p.y)
+
+def dijkstra(start_point, get_connected_nodes, get_travel_cost, debug=False):
+    q = PriorityQueue()
+    q.put((0, (start_point, None)))
+    distances = defaultdict(lambda: float('inf'))
+    backtrack = dict()
+    completed_nodes = set()
+    while not q.empty():
+        current_distance, (node, previous_node) = q.get()
+        if debug:
+            print(f"Examining node {node} D{current_distance} P{previous_node}")
+        if distances[node] <= current_distance:
+            if debug:
+                print(f"\tSkipping. Current distance of {distances[node]} from {backtrack[node]} is less than {current_distance} from {previous_node}")
+            continue
+        else:
+            distances[node] = current_distance
+            backtrack[node] = previous_node
+            for next_node in get_connected_nodes(node):
+                if next_node in completed_nodes:
+                    continue
+                travel_cost = get_travel_cost(node, next_node)
+                # print(f"\tAdding ({next_point.x},{next_point.y}) [{map.height(next_point)}] to q")
+                q.put((current_distance + travel_cost, (next_node, node)))
+            completed_nodes.add(node)
+    return distances, backtrack
