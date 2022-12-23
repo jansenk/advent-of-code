@@ -178,3 +178,19 @@ class HexDirection:
 	NW = Point3D(-1, 1, 0)
 	SW = Point3D(-1, 0, 1)
 	ALL_DIRECTIONS = [N, S, NE, SE, NW, SW]
+
+def surrounding_3d_points(p, include_diagonals=False):
+    if include_diagonals:
+        raise Exception("too bad sucker")
+    
+    result = [
+        move3d(p, Vector3D(1, 0, 0)),
+		move3d(p, Vector3D(-1, 0, 0)),
+        move3d(p, Vector3D(0, 1, 0)),
+        move3d(p, Vector3D(0, -1, 0)),
+        move3d(p, Vector3D(0, 0, 1)),
+        move3d(p, Vector3D(0, 0, -1))
+	]
+    
+    return result
+    

@@ -40,6 +40,10 @@ class Range:
             min(self.rmin, other.rmin),
             max(self.rmax, other.rmax),
         )
+        
+    def push(self, v):
+        self.rmin -= v
+        self.rmax += v
     
     def limit(self, limit):
         limited_min = max(self.rmin, limit.rmin)
@@ -63,6 +67,13 @@ class Window:
     def extend(self, p):
         self.x_range.extend(p.x)
         self.y_range.extend(p.y)
+        
+    def push(self, v):
+        self.x_range.push(v)
+        self.y_range.push(v)
+
+    def __contains__(self, p):
+        return p.x in self.x_range and p.y in self.y_range
 
 def dijkstra(start_point, get_connected_nodes, get_travel_cost, debug=False):
     q = PriorityQueue()
